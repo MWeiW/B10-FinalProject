@@ -4,9 +4,10 @@ A small front-end web application project for the course Web Application and Sof
 
 ## Project information
 
-- Student: Wing Wei Wong
-- University: HTW Berlin
-- Scenario: Campus Event and Workshop Hub
+- Student: Wing Wei Wong 602874
+- B10 Web App
+- HTW Berlin
+- Chosen Scenario 1: Campus Event and Workshop Hub
 
 ## How to run
 
