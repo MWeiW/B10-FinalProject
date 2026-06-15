@@ -9,19 +9,68 @@
 <body>
     <header>
         <h1>HTW Campus Event and Workshop Hub</h1>
+        <p>Organizer dashboard for events and registrations.</p>
         <nav aria-label="Main navigation">
-            <a href="index.html">Events</a>
-            <a href="event.html">Event Details</a>
-            <a href="event-form.html">Event Form</a>
-            <a href="registrations.html">My Registrations</a>
-            <a href="organizer.html">Organizer</a>
+            <ul>
+                <li><a href="index.html">Events</a></li>
+                <li><a href="event.html">Event Details</a></li>
+                <li><a href="event-form.html">Event Form</a></li>
+                <li><a href="registrations.html">My Registrations</a></li>
+                <li><a href="organizer.html">Organizer</a></li>
+            </ul>
         </nav>
     </header>
 
     <main>
-        <section>
-            <h2>Organizer Dashboard</h2>
-            <p>Manage campus events and registration information.</p>
+        <section aria-labelledby="dashboard-heading">
+            <h2 id="dashboard-heading">Organizer dashboard</h2>
+            <p>Departments can review their events, check seats, and see registered students.</p>
+
+            <article>
+                <h3>Event overview</h3>
+                <ul>
+                    <li><strong>Published events:</strong> 3</li>
+                    <li><strong>Total registrations:</strong> 42</li>
+                    <li><strong>Next event:</strong> Web Accessibility Basics</li>
+                </ul>
+                <a href="event-form.html">Create new event</a>
+            </article>
+        </section>
+
+        <section aria-labelledby="managed-events-heading">
+            <h2 id="managed-events-heading">Managed events</h2>
+
+            <article>
+                <h3>Web Accessibility Basics</h3>
+                <p><strong>Date:</strong> 18 June 2026</p>
+                <p><strong>Registrations:</strong> 12 of 30 seats</p>
+                <ul>
+                    <li><a href="event.html">View event</a></li>
+                    <li><a href="event-form.html">Edit event</a></li>
+                </ul>
+            </article>
+
+            <article>
+                <h3>Campus Career Evening</h3>
+                <p><strong>Date:</strong> 23 June 2026</p>
+                <p><strong>Registrations:</strong> 25 of 60 seats</p>
+                <ul>
+                    <li><a href="event.html">View event</a></li>
+                    <li><a href="event-form.html">Edit event</a></li>
+                </ul>
+            </article>
+        </section>
+
+        <section aria-labelledby="registered-students-heading">
+            <h2 id="registered-students-heading">Registered students</h2>
+            <article>
+                <h3>Web Accessibility Basics</h3>
+                <ul>
+                    <li>Wing Wei Wong — wing.wei.wong@student.htw-berlin.de</li>
+                    <li>Mina Schneider — mina.schneider@student.htw-berlin.de</li>
+                    <li>Jonas Becker — jonas.becker@student.htw-berlin.de</li>
+                </ul>
+            </article>
         </section>
     </main>
 

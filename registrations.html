@@ -9,19 +9,58 @@
 <body>
     <header>
         <h1>HTW Campus Event and Workshop Hub</h1>
+        <p>Manage the events you signed up for.</p>
         <nav aria-label="Main navigation">
-            <a href="index.html">Events</a>
-            <a href="event.html">Event Details</a>
-            <a href="event-form.html">Event Form</a>
-            <a href="registrations.html">My Registrations</a>
-            <a href="organizer.html">Organizer</a>
+            <ul>
+                <li><a href="index.html">Events</a></li>
+                <li><a href="event.html">Event Details</a></li>
+                <li><a href="event-form.html">Event Form</a></li>
+                <li><a href="registrations.html">My Registrations</a></li>
+                <li><a href="organizer.html">Organizer</a></li>
+            </ul>
         </nav>
     </header>
 
     <main>
-        <section>
-            <h2>My Registrations</h2>
-            <p>View and manage student event registrations.</p>
+        <section aria-labelledby="registrations-heading">
+            <h2 id="registrations-heading">My registrations</h2>
+            <p>This area shows student sign-ups and basic registration details.</p>
+
+            <article>
+                <h3>Web Accessibility Basics</h3>
+                <p><strong>Date:</strong> 18 June 2026</p>
+                <p><strong>Status:</strong> Registered</p>
+                <p><strong>Student:</strong> Wing Wei Wong</p>
+                <a href="event.html">View event</a>
+            </article>
+
+            <article>
+                <h3>Campus Career Evening</h3>
+                <p><strong>Date:</strong> 23 June 2026</p>
+                <p><strong>Status:</strong> Registered</p>
+                <p><strong>Student:</strong> Wing Wei Wong</p>
+                <a href="event.html">View event</a>
+            </article>
+        </section>
+
+        <section aria-labelledby="edit-registration-heading">
+            <h2 id="edit-registration-heading">Update registration details</h2>
+            <form>
+                <label for="registration-event">Event</label>
+                <select id="registration-event" name="registration-event">
+                    <option value="accessibility">Web Accessibility Basics</option>
+                    <option value="career-evening">Campus Career Evening</option>
+                </select>
+
+                <label for="student-email">Email address</label>
+                <input type="email" id="student-email" name="student-email" value="wing.wei.wong@student.htw-berlin.de">
+
+                <label for="note">Registration note</label>
+                <textarea id="note" name="note" rows="4"></textarea>
+
+                <button type="submit">Save changes</button>
+                <button type="button">Cancel registration</button>
+            </form>
         </section>
     </main>
 

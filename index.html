@@ -9,19 +9,81 @@
 <body>
     <header>
         <h1>HTW Campus Event and Workshop Hub</h1>
+        <p>Find events, workshops, and study activities at HTW Berlin.</p>
         <nav aria-label="Main navigation">
-            <a href="index.html">Events</a>
-            <a href="event.html">Event Details</a>
-            <a href="event-form.html">Event Form</a>
-            <a href="registrations.html">My Registrations</a>
-            <a href="organizer.html">Organizer</a>
+            <ul>
+                <li><a href="index.html">Events</a></li>
+                <li><a href="event.html">Event Details</a></li>
+                <li><a href="event-form.html">Event Form</a></li>
+                <li><a href="registrations.html">My Registrations</a></li>
+                <li><a href="organizer.html">Organizer</a></li>
+            </ul>
         </nav>
     </header>
 
     <main>
-        <section>
-            <h2>Event Listing</h2>
-            <p>Browse campus events, workshops, and university activities.</p>
+        <section aria-labelledby="event-listing-heading">
+            <h2 id="event-listing-heading">Campus events and workshops</h2>
+            <p>Students can browse upcoming events by date, category, and department.</p>
+
+            <form aria-label="Filter events">
+                <fieldset>
+                    <legend>Filter events</legend>
+
+                    <label for="search">Search</label>
+                    <input type="search" id="search" name="search" placeholder="Example: JavaScript workshop">
+
+                    <label for="event-date">Date</label>
+                    <input type="date" id="event-date" name="event-date">
+
+                    <label for="category">Category</label>
+                    <select id="category" name="category">
+                        <option value="">All categories</option>
+                        <option value="workshop">Workshop</option>
+                        <option value="lecture">Lecture</option>
+                        <option value="career">Career</option>
+                        <option value="student-life">Student life</option>
+                    </select>
+
+                    <label for="department">Department</label>
+                    <select id="department" name="department">
+                        <option value="">All departments</option>
+                        <option value="computer-science">Computer Science</option>
+                        <option value="design">Design and Culture</option>
+                        <option value="business">Business School</option>
+                    </select>
+
+                    <button type="submit">Apply filters</button>
+                </fieldset>
+            </form>
+        </section>
+
+        <section aria-labelledby="featured-events-heading">
+            <h2 id="featured-events-heading">Upcoming highlights</h2>
+
+            <article>
+                <h3>Web Accessibility Basics</h3>
+                <p><strong>Date:</strong> 18 June 2026</p>
+                <p><strong>Department:</strong> Computer Science</p>
+                <p>A practical workshop about writing HTML that is easier to use with keyboards and screen readers.</p>
+                <a href="event.html">View details</a>
+            </article>
+
+            <article>
+                <h3>Campus Career Evening</h3>
+                <p><strong>Date:</strong> 23 June 2026</p>
+                <p><strong>Category:</strong> Career</p>
+                <p>Students meet alumni and local companies for short talks, questions, and networking.</p>
+                <a href="event.html">View details</a>
+            </article>
+
+            <article>
+                <h3>Study Group Kickoff: Databases</h3>
+                <p><strong>Date:</strong> 30 June 2026</p>
+                <p><strong>Department:</strong> Computer Science</p>
+                <p>An open study session for students preparing for database and software architecture exams.</p>
+                <a href="event.html">View details</a>
+            </article>
         </section>
     </main>
 
