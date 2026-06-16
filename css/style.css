@@ -1,13 +1,14 @@
 :root {
-    --primary: #173f5f;
-    --primary-light: #2f73a6;
-    --accent: #c75b12;
-    --page-bg: #f4f7fb;
+    --primary: #2f6b08;
+    --primary-light: #4fa90d;
+    --accent: #5acc0e;
+    --accent-dark: #3c8509;
+    --page-bg: #f3f8ef;
     --card-bg: #ffffff;
     --text: #222222;
-    --muted: #5f6b76;
-    --border: #d7e0e8;
-    --shadow: 0 4px 14px rgba(23, 63, 95, 0.10);
+    --muted: #5f6b5c;
+    --border: #d8e8ce;
+    --shadow: 0 4px 14px rgba(47, 107, 8, 0.10);
 }
 
 * {
@@ -25,21 +26,21 @@ body {
 body > header {
     background: var(--primary);
     color: white;
-    padding: 28px 20px 18px;
+    padding: 24px 16px 18px;
     border-bottom: 5px solid var(--accent);
 }
 
 body > header h1 {
     max-width: 1050px;
     margin: 0 auto 8px;
-    font-size: 2rem;
+    font-size: 1.75rem;
     line-height: 1.2;
 }
 
 body > header p {
     max-width: 1050px;
-    margin: 0 auto 20px;
-    color: #dce9f5;
+    margin: 0 auto 18px;
+    color: #edf8e8;
 }
 
 nav {
@@ -49,19 +50,20 @@ nav {
 
 nav ul {
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    flex-direction: column;
+    gap: 8px;
     padding: 0;
     margin: 0;
     list-style: none;
 }
 
 nav a {
-    display: inline-block;
-    padding: 9px 14px;
+    display: block;
+    padding: 10px 14px;
     color: white;
     text-decoration: none;
-    background: rgba(255, 255, 255, 0.12);
+    text-align: center;
+    background: rgba(255, 255, 255, 0.13);
     border: 1px solid rgba(255, 255, 255, 0.24);
     border-radius: 20px;
 }
@@ -74,12 +76,12 @@ nav a:focus {
 
 main {
     width: min(1050px, calc(100% - 32px));
-    margin: 28px auto;
+    margin: 22px auto;
 }
 
 section,
 main > article {
-    margin-bottom: 24px;
+    margin-bottom: 22px;
 }
 
 section,
@@ -97,16 +99,16 @@ article {
 }
 
 section {
-    padding: 22px;
+    padding: 18px;
 }
 
 article {
-    padding: 18px;
-    margin: 16px 0;
+    padding: 16px;
+    margin: 14px 0;
 }
 
 main > article {
-    padding: 22px;
+    padding: 18px;
 }
 
 article header {
@@ -144,31 +146,35 @@ a {
 
 a:hover,
 a:focus {
-    color: var(--accent);
+    color: var(--accent-dark);
 }
 
 form {
+    display: grid;
+    gap: 12px;
     margin-top: 18px;
-    padding: 18px;
-    background: #eef4fa;
+    padding: 16px;
+    background: #eef8e8;
     border: 1px solid var(--border);
 }
 
 fieldset {
+    display: grid;
+    gap: 12px;
     padding: 0;
     margin: 0;
     border: 0;
 }
 
 legend {
-    margin-bottom: 12px;
+    margin-bottom: 4px;
     font-weight: bold;
     color: var(--primary);
 }
 
 label {
     display: block;
-    margin: 12px 0 5px;
+    margin: 0 0 -6px;
     font-weight: bold;
 }
 
@@ -180,14 +186,14 @@ textarea {
     font: inherit;
     color: var(--text);
     background: white;
-    border: 1px solid #b9c8d6;
+    border: 1px solid #b9ceb0;
     border-radius: 8px;
 }
 
 input:focus,
 select:focus,
 textarea:focus {
-    outline: 3px solid rgba(47, 115, 166, 0.25);
+    outline: 3px solid rgba(90, 204, 14, 0.25);
     border-color: var(--primary-light);
 }
 
@@ -196,11 +202,13 @@ button,
 article > a,
 section > a {
     display: inline-block;
-    margin-top: 10px;
+    width: 100%;
+    margin-top: 8px;
     padding: 10px 16px;
     color: white;
     font-weight: bold;
     text-decoration: none;
+    text-align: center;
     background: var(--primary-light);
     border: 0;
     border-radius: 8px;
@@ -216,7 +224,7 @@ article > a:focus,
 section > a:hover,
 section > a:focus {
     color: white;
-    background: var(--accent);
+    background: var(--accent-dark);
 }
 
 ul {
@@ -225,6 +233,30 @@ ul {
 
 li {
     margin-bottom: 6px;
+}
+
+#featured-events-heading + article,
+#managed-events-heading + article,
+#registrations-heading + p + article {
+    margin-top: 18px;
+}
+
+section:has(> article) {
+    display: grid;
+    gap: 14px;
+}
+
+section:has(> article) > h2,
+section:has(> article) > p {
+    margin-bottom: 0;
+}
+
+section:has(> article) > article {
+    margin: 0;
+}
+
+#registered-students-heading + article {
+    overflow-x: auto;
 }
 
 footer {
@@ -238,20 +270,119 @@ footer p {
     margin: 0;
 }
 
-@media (min-width: 760px) {
-    body > header h1 {
-        font-size: 2.35rem;
+@media (min-width: 600px) {
+    body > header {
+        padding: 28px 20px 18px;
     }
 
-    form fieldset {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        column-gap: 18px;
+    body > header h1 {
+        font-size: 2rem;
+    }
+
+    nav ul {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    nav a {
+        display: inline-block;
+        text-align: left;
+    }
+
+    form,
+    fieldset {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         align-items: end;
     }
 
-    form legend,
-    form button {
+    legend,
+    label[for="description"],
+    textarea,
+    label[for="registration-note"],
+    label[for="note"] {
+        grid-column: 1 / -1;
+    }
+
+    button,
+    .button,
+    article > a,
+    section > a {
+        width: auto;
+    }
+
+    section:has(> article) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    section:has(> article) > h2,
+    section:has(> article) > p {
+        grid-column: 1 / -1;
+    }
+
+    #dashboard-heading + p + article,
+    #registered-students-heading + article {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (min-width: 900px) {
+    main {
+        margin: 32px auto;
+    }
+
+    section,
+    main > article {
+        margin-bottom: 28px;
+    }
+
+    section,
+    main > article {
+        padding: 24px;
+    }
+
+    #featured-events-heading + article,
+    #featured-events-heading + article + article,
+    #featured-events-heading + article + article + article {
+        min-height: 100%;
+    }
+
+    #featured-events-heading + article {
+        grid-column: auto;
+    }
+
+    section:has(> article) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+    }
+
+    #managed-events-heading + article,
+    #managed-events-heading + article + article,
+    #registrations-heading + p + article,
+    #registrations-heading + p + article + article {
+        grid-column: auto;
+    }
+
+    form,
+    fieldset {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    form > label[for="title"],
+    form > input#title,
+    form > label[for="description"],
+    form > textarea#description,
+    form > label[for="location"],
+    form > input#location {
+        grid-column: span 2;
+    }
+
+    form > label[for="description"],
+    form > textarea#description {
+        grid-column: 1 / -1;
+    }
+
+    #registered-students-heading + article {
         grid-column: 1 / -1;
     }
 }
