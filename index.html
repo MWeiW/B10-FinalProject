@@ -26,7 +26,7 @@
             <h2 id="event-listing-heading">Campus events and workshops</h2>
             <p>Students can browse upcoming events by date, category, and department.</p>
 
-            <form aria-label="Filter events">
+            <form class="filter-form" aria-label="Filter events">
                 <fieldset>
                     <legend>Filter events</legend>
 
@@ -42,15 +42,20 @@
                         <option value="workshop">Workshop</option>
                         <option value="lecture">Lecture</option>
                         <option value="career">Career</option>
-                        <option value="student-life">Student life</option>
+                        <option value="social">Social</option>
+                        <option value="information-session">Information Session</option>
+                        <option value="academic-support">Academic Support</option>
                     </select>
 
                     <label for="department">Department</label>
                     <select id="department" name="department">
                         <option value="">All departments</option>
                         <option value="computer-science">Computer Science</option>
-                        <option value="design">Design and Culture</option>
-                        <option value="business">Business School</option>
+                        <option value="business">Business</option>
+                        <option value="cybersecurity">Cybersecurity</option>
+                        <option value="engineering">Engineering</option>
+                        <option value="career-service">Career Service</option>
+                        <option value="international-office">International Office</option>
                     </select>
 
                     <button type="submit">Apply filters</button>
