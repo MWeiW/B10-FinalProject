@@ -22,7 +22,7 @@ const categories = [
 const sampleEvents = [
     {
         id: "event-001",
-        title: "Web Accessibility Basics",
+        title: "Web Basics",
         department: "Computer Science",
         category: "Workshop",
         date: "2026-06-18",
