@@ -1,4 +1,4 @@
-# HTW Campus Event and Workshop Hub
+# HTW Campus Event and Workshop Hub - B10 Final Project
 
 A small front-end web application project for the course Web Application and Software Architecture at HTW Berlin.
 
@@ -9,6 +9,6 @@ A small front-end web application project for the course Web Application and Sof
 - HTW Berlin
 - Chosen Scenario 1: Campus Event and Workshop Hub
 
-## How to run
+## How to run the website:
 
 Open `index.html` directly in a web browser.
