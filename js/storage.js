@@ -41,6 +41,28 @@ function getSampleRegistrations() {
     return sampleRegistrations;
 }
 
+
+function normalizeEventNames(events) {
+    return events.map(function (event) {
+        const normalizedEvent = Object.assign({}, event);
+
+        if (normalizedEvent.department === "Design" || normalizedEvent.department === "Design and Culture") {
+            normalizedEvent.department = "Cybersecurity";
+        }
+
+        if (normalizedEvent.title === "International Welcome Coffee" || normalizedEvent.title === "International Welcome Coffee for New HTW Students") {
+            normalizedEvent.title = "International Welcome Coffee for new HTW students.";
+        }
+
+        if (normalizedEvent.description === "A relaxed meeting for international and local students to ask questions and get to know each other." ||
+                normalizedEvent.description === "A relaxed meeting for international and new students to ask questions and get to know each other.") {
+            normalizedEvent.description = "A relaxed meeting for international and new HTW students to ask questions and get to know each other.";
+        }
+
+        return normalizedEvent;
+    });
+}
+
 function initializeStorage() {
     if (!localStorage.getItem(EVENTS_STORAGE_KEY)) {
         saveEvents(getSampleEvents());
@@ -49,6 +71,8 @@ function initializeStorage() {
     if (!localStorage.getItem(REGISTRATIONS_STORAGE_KEY)) {
         saveRegistrations(getSampleRegistrations());
     }
+
+    saveEvents(normalizeEventNames(getEvents()));
 }
 
 function getEvents() {

@@ -78,14 +78,14 @@ const sampleEvents = [
     },
     {
         id: "event-005",
-        title: "International Welcome Coffee",
+        title: "International Welcome Coffee for new HTW students.",
         department: "International Office",
         category: "Social",
         date: "2026-07-08",
         time: "10:00",
         location: "Student Service Center",
         capacity: 35,
-        description: "A relaxed meeting for international and local students to ask questions and get to know each other.",
+        description: "A relaxed meeting for international and new HTW students to ask questions and get to know each other.",
         organizerUsername: "international-office",
         createdAt: "2026-06-08T11:10:00Z",
         updatedAt: "2026-06-08T11:10:00Z"
