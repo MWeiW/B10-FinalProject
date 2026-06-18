@@ -26,11 +26,11 @@
             <h2 id="event-listing-heading">Campus events and workshops</h2>
             <p>Students can browse upcoming events by date, category, and department.</p>
 
-            <form class="filter-form" aria-label="Filter events">
+            <form id="event-filter-form" class="filter-form" aria-label="Filter events">
                 <fieldset>
                     <legend>Filter events</legend>
 
-                    <label for="search">Search</label>
+                    <label for="search">Keyword search</label>
                     <input type="search" id="search" name="search" placeholder="Example: JavaScript workshop">
 
                     <label for="event-date">Date</label>
@@ -39,26 +39,29 @@
                     <label for="category">Category</label>
                     <select id="category" name="category">
                         <option value="">All categories</option>
-                        <option value="workshop">Workshop</option>
-                        <option value="lecture">Lecture</option>
-                        <option value="career">Career</option>
-                        <option value="social">Social</option>
-                        <option value="information-session">Information Session</option>
-                        <option value="academic-support">Academic Support</option>
+                        <option value="Workshop">Workshop</option>
+                        <option value="Lecture">Lecture</option>
+                        <option value="Career">Career</option>
+                        <option value="Social">Social</option>
+                        <option value="Information Session">Information Session</option>
+                        <option value="Academic Support">Academic Support</option>
                     </select>
 
                     <label for="department">Department</label>
                     <select id="department" name="department">
                         <option value="">All departments</option>
-                        <option value="computer-science">Computer Science</option>
-                        <option value="business">Business</option>
-                        <option value="cybersecurity">Cybersecurity</option>
-                        <option value="engineering">Engineering</option>
-                        <option value="career-service">Career Service</option>
-                        <option value="international-office">International Office</option>
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="Business">Business</option>
+                        <option value="Cybersecurity">Cybersecurity</option>
+                        <option value="Engineering">Engineering</option>
+                        <option value="Career Service">Career Service</option>
+                        <option value="International Office">International Office</option>
                     </select>
 
-                    <button type="submit">Apply filters</button>
+                    <div class="filter-buttons">
+                        <button type="submit">Apply filters</button>
+                        <button type="button" id="clear-filters">Clear filters</button>
+                    </div>
                 </fieldset>
             </form>
         </section>
@@ -72,6 +75,7 @@
         <p>HTW Berlin course project by Wing Wei Wong.</p>
     </footer>
 
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="js/data.js"></script>
     <script src="js/storage.js"></script>
     <script src="js/security.js"></script>

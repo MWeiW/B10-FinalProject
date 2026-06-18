@@ -59,27 +59,84 @@ function createEventCard(event) {
     return card;
 }
 
-function renderHomeEventList() {
+function getEventSearchText(event) {
+    return [
+        event.title,
+        event.description,
+        event.location,
+        event.department,
+        event.category
+    ].join(" ").toLowerCase();
+}
+
+function eventMatchesFilters(event, filters) {
+    const keywordMatches = filters.keyword === "" || getEventSearchText(event).includes(filters.keyword);
+    const dateMatches = filters.date === "" || event.date === filters.date;
+    const categoryMatches = filters.category === "" || event.category === filters.category;
+    const departmentMatches = filters.department === "" || event.department === filters.department;
+
+    return keywordMatches && dateMatches && categoryMatches && departmentMatches;
+}
+
+function getEventFiltersFromForm() {
+    const filterForm = document.getElementById("event-filter-form");
+
+    if (!filterForm) {
+        return {
+            keyword: "",
+            date: "",
+            category: "",
+            department: ""
+        };
+    }
+
+    return {
+        keyword: filterForm.search.value.trim().toLowerCase(),
+        date: filterForm["event-date"].value,
+        category: filterForm.category.value,
+        department: filterForm.department.value
+    };
+}
+
+function clearRenderedEvents(eventSection) {
+    eventSection.querySelectorAll("article, .empty-message").forEach(function (element) {
+        element.remove();
+    });
+}
+
+function showEmptyEventMessage(eventSection, message) {
+    const emptyMessage = document.createElement("p");
+    emptyMessage.className = "empty-message";
+    emptyMessage.textContent = message;
+    eventSection.appendChild(emptyMessage);
+}
+
+function renderHomeEventList(eventsToShow) {
     const eventSection = document.getElementById("featured-events");
 
     if (!eventSection) {
         return;
     }
 
-    const events = getEvents();
+    const events = eventsToShow || getEvents();
 
-    eventSection.querySelectorAll("article").forEach(function (article) {
-        article.remove();
-    });
+    clearRenderedEvents(eventSection);
 
     if (events.length === 0) {
-        const emptyMessage = document.createElement("p");
-        emptyMessage.textContent = "No events are available right now.";
-        eventSection.appendChild(emptyMessage);
+        showEmptyEventMessage(eventSection, "No events match the selected filters.");
         return;
     }
 
     events.forEach(function (event) {
         eventSection.appendChild(createEventCard(event));
     });
+}
+
+function filterAndRenderHomeEvents() {
+    const filters = getEventFiltersFromForm();
+    const filteredEvents = getEvents().filter(function (event) {
+        return eventMatchesFilters(event, filters);
+    });
+
+    renderHomeEventList(filteredEvents);
 }
