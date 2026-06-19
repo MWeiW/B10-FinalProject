@@ -58,6 +58,7 @@ function setupRoleSwitcher() {
         setCurrentUser(roleSelect.value, userSelect.value);
         updateRoleBasedNavigation();
         filterAndRenderHomeEvents();
+        renderEventDetailPage();
     });
 }
 
@@ -66,5 +67,6 @@ document.addEventListener("DOMContentLoaded", function () {
     updateRoleBasedNavigation();
     setupRoleSwitcher();
     renderHomeEventList();
+    renderEventDetailPage();
     setupHomeEventFilters();
 });

@@ -486,3 +486,22 @@ footer p {
         align-items: center;
     }
 }
+
+#event-detail > button,
+.event-action-panel button,
+.event-action-panel a {
+    margin-right: 10px;
+}
+
+.event-action-panel {
+    margin-top: 12px;
+}
+
+.danger-button {
+    background: #9b2727;
+}
+
+.danger-button:hover,
+.danger-button:focus {
+    background: #741b1b;
+}
