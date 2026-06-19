@@ -30,7 +30,7 @@ const sampleEvents = [
         location: "Building C, Room 301",
         capacity: 24,
         description: "A practical workshop about writing HTML that is easier to use with keyboards and screen readers.",
-        organizerUsername: "cs-organizer",
+        organizerUsername: "cs-department",
         createdAt: "2026-05-30T10:15:00Z",
         updatedAt: "2026-05-30T10:15:00Z"
     },
@@ -58,7 +58,7 @@ const sampleEvents = [
         location: "Library Study Room 2",
         capacity: 18,
         description: "An open study session for students preparing for database and software architecture exams.",
-        organizerUsername: "cs-organizer",
+        organizerUsername: "cs-department",
         createdAt: "2026-06-04T14:20:00Z",
         updatedAt: "2026-06-04T14:20:00Z"
     },
@@ -72,7 +72,7 @@ const sampleEvents = [
         location: "Building G, Room 110",
         capacity: 45,
         description: "A short guest lecture about everyday security habits for students and project teams.",
-        organizerUsername: "security-lab",
+        organizerUsername: "cs-department",
         createdAt: "2026-06-06T08:45:00Z",
         updatedAt: "2026-06-06T08:45:00Z"
     },
@@ -86,7 +86,7 @@ const sampleEvents = [
         location: "Student Service Center",
         capacity: 35,
         description: "A relaxed meeting for international and new HTW students to ask questions and get to know each other.",
-        organizerUsername: "international-office",
+        organizerUsername: "business-school",
         createdAt: "2026-06-08T11:10:00Z",
         updatedAt: "2026-06-08T11:10:00Z"
     },
@@ -100,7 +100,7 @@ const sampleEvents = [
         location: "Building A, Room 204",
         capacity: 30,
         description: "An introduction to planning small semester projects, splitting tasks, and documenting team decisions.",
-        organizerUsername: "engineering-office",
+        organizerUsername: "cs-department",
         createdAt: "2026-06-10T13:25:00Z",
         updatedAt: "2026-06-10T13:25:00Z"
     }
@@ -110,9 +110,9 @@ const sampleRegistrations = [
     {
         id: "registration-001",
         eventId: "event-001",
-        studentUsername: "student-lina",
-        studentName: "Lina Becker",
-        studentEmail: "lina.becker@student.htw-berlin.de",
+        studentUsername: "wei",
+        studentName: "Wei",
+        studentEmail: "wei@student.htw-berlin.de",
         studyProgram: "International Media and Computing",
         semester: 2,
         note: "I use keyboard navigation often and want to learn better HTML patterns.",
@@ -122,13 +122,25 @@ const sampleRegistrations = [
     {
         id: "registration-002",
         eventId: "event-002",
-        studentUsername: "student-omar",
-        studentName: "Omar Khalil",
-        studentEmail: "omar.khalil@student.htw-berlin.de",
+        studentUsername: "maya",
+        studentName: "Maya",
+        studentEmail: "maya@student.htw-berlin.de",
         studyProgram: "Business Administration",
         semester: 4,
         note: "Interested in internships for the winter semester.",
         createdAt: "2026-06-07T09:15:00Z",
         updatedAt: "2026-06-07T09:15:00Z"
     }
+];
+
+const demoStudentUsers = [
+    { username: "wei", name: "Wei" },
+    { username: "maya", name: "Maya" },
+    { username: "zoe", name: "Zoe" }
+];
+
+const demoOrganizerUsers = [
+    { username: "cs-department", name: "CS Department" },
+    { username: "business-school", name: "Business School" },
+    { username: "career-center", name: "Career Center" }
 ];

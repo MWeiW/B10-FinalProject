@@ -434,3 +434,55 @@ footer p {
     border: 1px dashed var(--border);
     border-radius: 8px;
 }
+
+.role-switcher {
+    max-width: 1050px;
+    margin: 16px auto 0;
+    padding: 14px;
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.96);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
+
+.role-switcher h2 {
+    margin: 0 0 10px;
+    font-size: 1rem;
+    color: var(--primary);
+}
+
+.role-switcher form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+}
+
+.role-switcher label {
+    font-weight: bold;
+}
+
+.role-switcher select,
+.role-switcher button {
+    width: 100%;
+}
+
+.role-switcher p {
+    margin: 10px 0 0;
+    color: var(--muted);
+}
+
+.card-action {
+    margin-left: 10px;
+}
+
+@media (min-width: 700px) {
+    .role-switcher form {
+        grid-template-columns: auto minmax(150px, 1fr) auto minmax(160px, 1fr) auto;
+        align-items: center;
+    }
+}

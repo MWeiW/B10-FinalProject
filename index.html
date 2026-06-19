@@ -11,14 +11,31 @@
         <h1>HTW Campus Event and Workshop Hub</h1>
         <p>Find events, workshops, and study activities at HTW Berlin.</p>
         <nav aria-label="Main navigation">
-            <ul>
-                <li><a href="index.html">Events</a></li>
-                <li><a href="event.html">Event Details</a></li>
-                <li><a href="event-form.html">Event Form</a></li>
-                <li><a href="registrations.html">My Registrations</a></li>
-                <li><a href="organizer.html">Organizer</a></li>
+            <ul id="main-navigation">
+                <li><a href="index.html" data-nav-role="all">Events</a></li>
+                <li><a href="event.html" data-nav-role="all">Event Details</a></li>
+                <li><a href="registrations.html" data-nav-role="student">My Registrations</a></li>
+                <li><a href="event-form.html" data-nav-role="organizer">Create Event</a></li>
+                <li><a href="organizer.html" data-nav-role="organizer">Organizer Dashboard</a></li>
             </ul>
         </nav>
+        <section class="role-switcher" aria-labelledby="role-switcher-heading">
+            <h2 id="role-switcher-heading">Demo role</h2>
+            <form id="role-switcher-form">
+                <label for="role-select">Use the site as</label>
+                <select id="role-select" name="role">
+                    <option value="guest">Guest</option>
+                    <option value="student">Student</option>
+                    <option value="organizer">Organizer/Admin</option>
+                </select>
+
+                <label for="user-select">Demo user</label>
+                <select id="user-select" name="username"></select>
+
+                <button type="submit">Switch role</button>
+            </form>
+            <p id="current-role-message" aria-live="polite"></p>
+        </section>
     </header>
 
     <main>

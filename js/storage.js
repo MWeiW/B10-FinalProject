@@ -229,3 +229,52 @@ function getAvailableSeats(eventId) {
 }
 
 initializeStorage();
+
+const CURRENT_ROLE_STORAGE_KEY = "htwCampusCurrentRole";
+const CURRENT_USERNAME_STORAGE_KEY = "htwCampusCurrentUsername";
+
+function getDemoUsersForRole(role) {
+    if (role === "student") {
+        return typeof demoStudentUsers === "undefined" ? [] : demoStudentUsers;
+    }
+
+    if (role === "organizer") {
+        return typeof demoOrganizerUsers === "undefined" ? [] : demoOrganizerUsers;
+    }
+
+    return [{ username: "guest", name: "Guest" }];
+}
+
+function getCurrentUser() {
+    const savedRole = localStorage.getItem(CURRENT_ROLE_STORAGE_KEY) || "guest";
+    const role = ["guest", "student", "organizer"].includes(savedRole) ? savedRole : "guest";
+    const users = getDemoUsersForRole(role);
+    const savedUsername = localStorage.getItem(CURRENT_USERNAME_STORAGE_KEY);
+    const userExists = users.some(function (user) {
+        return user.username === savedUsername;
+    });
+    const username = userExists ? savedUsername : users[0].username;
+    const user = users.find(function (demoUser) {
+        return demoUser.username === username;
+    });
+
+    return {
+        role: role,
+        username: username,
+        name: user ? user.name : "Guest"
+    };
+}
+
+function setCurrentUser(role, username) {
+    const safeRole = ["guest", "student", "organizer"].includes(role) ? role : "guest";
+    const users = getDemoUsersForRole(safeRole);
+    const userExists = users.some(function (user) {
+        return user.username === username;
+    });
+    const safeUsername = userExists ? username : users[0].username;
+
+    localStorage.setItem(CURRENT_ROLE_STORAGE_KEY, safeRole);
+    localStorage.setItem(CURRENT_USERNAME_STORAGE_KEY, safeUsername);
+
+    return getCurrentUser();
+}

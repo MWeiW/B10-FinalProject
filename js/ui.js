@@ -56,6 +56,24 @@ function createEventCard(event) {
     detailLink.textContent = "View details";
     card.appendChild(detailLink);
 
+    const currentUser = getCurrentUser();
+
+    if (currentUser.role === "student") {
+        const registerLink = document.createElement("a");
+        registerLink.href = "event.html?id=" + encodeURIComponent(event.id) + "#registration-heading";
+        registerLink.textContent = "Register";
+        registerLink.className = "card-action";
+        card.appendChild(registerLink);
+    }
+
+    if (currentUser.role === "organizer") {
+        const editLink = document.createElement("a");
+        editLink.href = "event-form.html?id=" + encodeURIComponent(event.id);
+        editLink.textContent = "Edit event";
+        editLink.className = "card-action";
+        card.appendChild(editLink);
+    }
+
     return card;
 }
 
@@ -139,4 +157,91 @@ function filterAndRenderHomeEvents() {
     });
 
     renderHomeEventList(filteredEvents);
+}
+
+function getRoleLabel(role) {
+    if (role === "student") {
+        return "Student";
+    }
+
+    if (role === "organizer") {
+        return "Organizer/Admin";
+    }
+
+    return "Guest";
+}
+
+function populateUserSelect(role, selectedUsername) {
+    const userSelect = document.getElementById("user-select");
+
+    if (!userSelect) {
+        return;
+    }
+
+    userSelect.innerHTML = "";
+
+    getDemoUsersForRole(role).forEach(function (user) {
+        const option = document.createElement("option");
+        option.value = user.username;
+        option.textContent = user.name;
+        option.selected = user.username === selectedUsername;
+        userSelect.appendChild(option);
+    });
+}
+
+function updateRoleBasedNavigation() {
+    const currentUser = getCurrentUser();
+    const roleSelect = document.getElementById("role-select");
+    const currentRoleMessage = document.getElementById("current-role-message");
+
+    document.querySelectorAll("[data-nav-role]").forEach(function (link) {
+        const allowedRole = link.getAttribute("data-nav-role");
+        const listItem = link.closest("li");
+        const isVisible = allowedRole === "all" || allowedRole === currentUser.role;
+
+        if (listItem) {
+            listItem.hidden = !isVisible;
+        }
+    });
+
+    if (roleSelect) {
+        roleSelect.value = currentUser.role;
+    }
+
+    populateUserSelect(currentUser.role, currentUser.username);
+
+    if (currentRoleMessage) {
+        currentRoleMessage.textContent = "Current role: " + getRoleLabel(currentUser.role) + " (" + currentUser.name + ")";
+    }
+
+    document.body.setAttribute("data-current-role", currentUser.role);
+    updateRoleBasedSections();
+}
+
+function updateRoleBasedSections() {
+    const currentUser = getCurrentUser();
+    let firstBlockedRole = "";
+
+    document.querySelectorAll("[data-page-role]").forEach(function (section) {
+        const allowedRole = section.getAttribute("data-page-role");
+        const isVisible = allowedRole === currentUser.role;
+        section.hidden = !isVisible;
+
+        if (!isVisible && firstBlockedRole === "") {
+            firstBlockedRole = allowedRole;
+        }
+    });
+
+    const oldMessage = document.getElementById("role-access-message");
+    if (oldMessage) {
+        oldMessage.remove();
+    }
+
+    if (firstBlockedRole !== "") {
+        const message = document.createElement("p");
+        message.id = "role-access-message";
+        message.className = "empty-message";
+        message.textContent = "This page is available for " + getRoleLabel(firstBlockedRole).toLowerCase() + " users in the demo.";
+        document.querySelector("main").prepend(message);
+    }
 }
