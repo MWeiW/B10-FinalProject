@@ -82,7 +82,7 @@
             "location": "Student Service Center",
             "capacity": 35,
             "description": "A relaxed meeting for international and new HTW students to ask questions and get to know each other.",
-            "organizerUsername": "international-office",
+            "organizerUsername": "business-school",
             "createdAt": "2026-06-08T11:10:00Z",
             "updatedAt": "2026-06-08T11:10:00Z"
         },
@@ -96,7 +96,7 @@
             "location": "Building A, Room 204",
             "capacity": 30,
             "description": "An introduction to planning small semester projects, splitting tasks, and documenting team decisions.",
-            "organizerUsername": "engineering-office",
+            "organizerUsername": "cs-department",
             "createdAt": "2026-06-10T13:25:00Z",
             "updatedAt": "2026-06-10T13:25:00Z"
         }
@@ -108,7 +108,7 @@
             "studentUsername": "wei",
             "studentName": "Wei",
             "studentEmail": "wei@student.htw-berlin.de",
-            "studyProgram": "International Media and Computing",
+            "studyProgram": "Cybersecurity",
             "semester": 2,
             "note": "I use keyboard navigation often and want to learn better HTML patterns.",
             "createdAt": "2026-06-05T15:40:00Z",

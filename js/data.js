@@ -113,7 +113,7 @@ const sampleRegistrations = [
         studentUsername: "wei",
         studentName: "Wei",
         studentEmail: "wei@student.htw-berlin.de",
-        studyProgram: "International Media and Computing",
+        studyProgram: "Cybersecurity",
         semester: 2,
         note: "I use keyboard navigation often and want to learn better HTML patterns.",
         createdAt: "2026-06-05T15:40:00Z",
@@ -134,9 +134,9 @@ const sampleRegistrations = [
 ];
 
 const demoStudentUsers = [
-    { username: "wei", name: "Wei" },
-    { username: "maya", name: "Maya" },
-    { username: "zoe", name: "Zoe" }
+    { username: "wei", name: "Wei", email: "wei@student.htw-berlin.de", studyProgram: "Cybersecurity", semester: 2 },
+    { username: "maya", name: "Maya", email: "maya@student.htw-berlin.de", studyProgram: "Business Administration", semester: 4 },
+    { username: "zoe", name: "Zoe", email: "zoe@student.htw-berlin.de", studyProgram: "Computer Science", semester: 1 }
 ];
 
 const demoOrganizerUsers = [

@@ -280,61 +280,168 @@ function showEventDetailMessage(container, message) {
     container.appendChild(backLink);
 }
 
+function addErrorMessage(form, field) {
+    const error = document.createElement("p");
+    error.id = field.id + "-error";
+    error.className = "error-message";
+    error.setAttribute("aria-live", "polite");
+    form.appendChild(error);
+}
+
+function addRegistrationField(form, labelText, field) {
+    const label = document.createElement("label");
+
+    label.setAttribute("for", field.id);
+    label.textContent = labelText;
+    field.setAttribute("aria-describedby", field.id + "-error");
+
+    form.appendChild(label);
+    form.appendChild(field);
+    addErrorMessage(form, field);
+}
+
+function getRegistrationFormData(form, eventId) {
+    const currentUser = getCurrentUser();
+
+    return {
+        eventId: eventId,
+        studentUsername: currentUser.username,
+        studentName: cleanText(form.studentName.value),
+        studentEmail: cleanText(form.studentEmail.value),
+        studyProgram: cleanText(form.studyProgram.value),
+        semester: Number(form.semester.value),
+        note: cleanText(form.note.value)
+    };
+}
+
+function showRegistrationMessage(section, message, isError) {
+    const messageElement = section.querySelector(".registration-message");
+
+    if (!messageElement) {
+        return;
+    }
+
+    messageElement.textContent = message;
+    messageElement.classList.toggle("form-message-error", Boolean(isError));
+}
+
 function renderStudentEventAction(container, event, availableSeats) {
+    const currentUser = getCurrentUser();
+    const existingRegistration = getRegistrationForStudentAndEvent(currentUser.username, event.id);
     const section = document.createElement("section");
     const heading = document.createElement("h3");
     const intro = document.createElement("p");
+    const message = document.createElement("p");
 
     section.className = "event-action-panel";
     heading.id = "registration-heading";
     heading.textContent = "Student registration";
     section.setAttribute("aria-labelledby", "registration-heading");
-    intro.textContent = "Seats are available for this event. Please check the event information before registering.";
+    message.className = "form-message registration-message";
+    message.setAttribute("aria-live", "polite");
 
     section.appendChild(heading);
-    section.appendChild(intro);
 
-    if (availableSeats > 0) {
-        const form = document.createElement("form");
-        const nameLabel = document.createElement("label");
-        const nameInput = document.createElement("input");
-        const emailLabel = document.createElement("label");
-        const emailInput = document.createElement("input");
-        const noteLabel = document.createElement("label");
-        const noteInput = document.createElement("textarea");
-        const button = document.createElement("button");
-
-        nameLabel.setAttribute("for", "student-name");
-        nameLabel.textContent = "Full name";
-        nameInput.id = "student-name";
-        nameInput.name = "student-name";
-        nameInput.type = "text";
-
-        emailLabel.setAttribute("for", "student-email");
-        emailLabel.textContent = "HTW email address";
-        emailInput.id = "student-email";
-        emailInput.name = "student-email";
-        emailInput.type = "email";
-
-        noteLabel.setAttribute("for", "registration-note");
-        noteLabel.textContent = "Notes for the organizer";
-        noteInput.id = "registration-note";
-        noteInput.name = "registration-note";
-        noteInput.rows = 4;
-
-        button.type = "button";
-        button.textContent = "Registration form preview";
-
-        form.appendChild(nameLabel);
-        form.appendChild(nameInput);
-        form.appendChild(emailLabel);
-        form.appendChild(emailInput);
-        form.appendChild(noteLabel);
-        form.appendChild(noteInput);
-        form.appendChild(button);
-        section.appendChild(form);
+    if (existingRegistration) {
+        intro.textContent = "You are already registered for this event.";
+        section.appendChild(intro);
+        container.appendChild(section);
+        return;
     }
 
+    if (availableSeats <= 0) {
+        intro.textContent = "This event is fully booked.";
+        section.appendChild(intro);
+        container.appendChild(section);
+        return;
+    }
+
+    intro.textContent = "Fill in your student details to reserve one seat.";
+    section.appendChild(intro);
+
+    const form = document.createElement("form");
+    const nameInput = document.createElement("input");
+    const emailInput = document.createElement("input");
+    const programInput = document.createElement("input");
+    const semesterInput = document.createElement("input");
+    const noteInput = document.createElement("textarea");
+    const button = document.createElement("button");
+
+    form.id = "student-registration-form";
+    form.noValidate = true;
+
+    nameInput.id = "student-name";
+    nameInput.name = "studentName";
+    nameInput.type = "text";
+    nameInput.maxLength = registrationFieldLimits.studentName;
+    nameInput.value = currentUser.name;
+
+    emailInput.id = "student-email";
+    emailInput.name = "studentEmail";
+    emailInput.type = "email";
+    emailInput.maxLength = registrationFieldLimits.studentEmail;
+    emailInput.value = currentUser.email;
+
+    programInput.id = "study-program";
+    programInput.name = "studyProgram";
+    programInput.type = "text";
+    programInput.maxLength = registrationFieldLimits.studyProgram;
+    programInput.value = currentUser.studyProgram;
+
+    semesterInput.id = "semester";
+    semesterInput.name = "semester";
+    semesterInput.type = "number";
+    semesterInput.min = "1";
+    semesterInput.max = "20";
+    semesterInput.step = "1";
+    semesterInput.value = currentUser.semester;
+
+    noteInput.id = "registration-note";
+    noteInput.name = "note";
+    noteInput.rows = 4;
+    noteInput.maxLength = registrationFieldLimits.note;
+
+    button.type = "submit";
+    button.textContent = "Register for event";
+
+    addRegistrationField(form, "Student name", nameInput);
+    addRegistrationField(form, "Student email", emailInput);
+    addRegistrationField(form, "Study program", programInput);
+    addRegistrationField(form, "Semester", semesterInput);
+    addRegistrationField(form, "Optional note or accessibility needs", noteInput);
+    form.appendChild(message);
+    form.appendChild(button);
+
+    form.addEventListener("submit", function (submitEvent) {
+        submitEvent.preventDefault();
+
+        if (getCurrentUser().role !== "student") {
+            showRegistrationMessage(section, "Only students can register for events.", true);
+            return;
+        }
+
+        if (!validateRegistrationForm(form)) {
+            showRegistrationMessage(section, "Please fix the highlighted fields.", true);
+            return;
+        }
+
+        if (getRegistrationForStudentAndEvent(getCurrentUser().username, event.id)) {
+            showRegistrationMessage(section, "You are already registered for this event.", true);
+            return;
+        }
+
+        if (getAvailableSeats(event.id) <= 0) {
+            showRegistrationMessage(section, "This event is fully booked.", true);
+            renderEventDetailPage();
+            return;
+        }
+
+        createRegistration(getRegistrationFormData(form, event.id));
+        showRegistrationMessage(section, "Registration saved.", false);
+        renderEventDetailPage();
+    });
+
+    section.appendChild(form);
     container.appendChild(section);
 }
 

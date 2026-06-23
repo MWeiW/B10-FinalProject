@@ -63,7 +63,27 @@ function normalizeEventNames(events) {
             normalizedEvent.organizerUsername = "career-center";
         }
 
+        if (normalizedEvent.organizerUsername === "international-office") {
+            normalizedEvent.organizerUsername = "business-school";
+        }
+
+        if (normalizedEvent.organizerUsername === "engineering-office") {
+            normalizedEvent.organizerUsername = "cs-department";
+        }
+
         return normalizedEvent;
+    });
+}
+
+function normalizeRegistrations(registrations) {
+    return registrations.map(function (registration) {
+        const normalizedRegistration = Object.assign({}, registration);
+
+        if (normalizedRegistration.studentUsername === "wei") {
+            normalizedRegistration.studyProgram = "Cybersecurity";
+        }
+
+        return normalizedRegistration;
     });
 }
 
@@ -77,6 +97,7 @@ function initializeStorage() {
     }
 
     saveEvents(normalizeEventNames(getEvents()));
+    saveRegistrations(normalizeRegistrations(getRegistrations()));
 }
 
 function getEvents() {
@@ -219,6 +240,12 @@ function getRegistrationsForStudent(studentUsername) {
     });
 }
 
+function getRegistrationForStudentAndEvent(studentUsername, eventId) {
+    return getRegistrations().find(function (registration) {
+        return registration.studentUsername === studentUsername && registration.eventId === eventId;
+    });
+}
+
 function getAvailableSeats(eventId) {
     const event = getEventById(eventId);
 
@@ -265,7 +292,10 @@ function getCurrentUser() {
     return {
         role: role,
         username: username,
-        name: user ? user.name : "Guest"
+        name: user ? user.name : "Guest",
+        email: user && user.email ? user.email : "",
+        studyProgram: user && user.studyProgram ? user.studyProgram : "",
+        semester: user && user.semester ? user.semester : ""
     };
 }
 

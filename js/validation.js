@@ -92,3 +92,47 @@ function validateEventForm(form) {
 
     return errors.length === 0;
 }
+
+const registrationFieldLimits = {
+    studentName: 60,
+    studentEmail: 80,
+    studyProgram: 80,
+    note: 250
+};
+
+function isValidEmail(value) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+function validateRegistrationForm(form) {
+    const errors = [];
+    const semester = Number(form.semester.value);
+
+    clearInlineErrors(form);
+
+    validateTextField(form.studentName, "Student name", registrationFieldLimits.studentName, errors);
+    validateTextField(form.studentEmail, "Student email", registrationFieldLimits.studentEmail, errors);
+    validateTextField(form.studyProgram, "Study program", registrationFieldLimits.studyProgram, errors);
+
+    if (!isBlank(form.studentEmail.value) && !isValidEmail(form.studentEmail.value.trim())) {
+        errors.push({ field: form.studentEmail, message: "Enter a valid email address." });
+    }
+
+    if (isBlank(form.semester.value)) {
+        errors.push({ field: form.semester, message: "Semester is required." });
+    } else if (!Number.isInteger(semester) || semester <= 0) {
+        errors.push({ field: form.semester, message: "Semester must be a positive whole number." });
+    } else if (semester > 20) {
+        errors.push({ field: form.semester, message: "Semester cannot be more than 20." });
+    }
+
+    if (form.note.value.trim().length > registrationFieldLimits.note) {
+        errors.push({ field: form.note, message: "Note must be 250 characters or less." });
+    }
+
+    errors.forEach(function (error) {
+        showInlineError(error.field, error.message);
+    });
+
+    return errors.length === 0;
+}
