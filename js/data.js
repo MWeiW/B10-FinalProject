@@ -44,7 +44,7 @@ const sampleEvents = [
         location: "Main Hall, Treskowallee Campus",
         capacity: 80,
         description: "Students meet alumni and local companies for short talks, questions, and networking.",
-        organizerUsername: "career-service",
+        organizerUsername: "career-center",
         createdAt: "2026-06-01T09:00:00Z",
         updatedAt: "2026-06-03T12:30:00Z"
     },

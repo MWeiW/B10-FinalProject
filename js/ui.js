@@ -53,7 +53,7 @@ function createEventCard(event) {
     addEventDetail(card, "Seats", availableSeats + " available / " + event.capacity + " total");
 
     detailLink.href = "event.html?id=" + encodeURIComponent(event.id);
-    detailLink.textContent = "View details";
+    detailLink.textContent = "Show event information";
     card.appendChild(detailLink);
 
     const currentUser = getCurrentUser();
@@ -359,6 +359,12 @@ function renderOrganizerEventAction(container, event) {
     deleteButton.type = "button";
     deleteButton.className = "danger-button";
     deleteButton.textContent = "Delete event";
+    deleteButton.addEventListener("click", function () {
+        if (window.confirm("Delete this event?")) {
+            deleteEvent(event.id);
+            window.location.href = "organizer.html";
+        }
+    });
 
     section.appendChild(heading);
     section.appendChild(intro);
@@ -407,7 +413,7 @@ function renderEventDetailPage() {
     organizer.textContent = "Organized by: " + event.department;
     toggleButton.type = "button";
     toggleButton.id = "detail-toggle";
-    toggleButton.textContent = "Show or hide event information";
+    toggleButton.textContent = "Show event information";
 
     detailsSection.id = "event-full-information";
     detailsHeading.textContent = "Event information";
@@ -454,4 +460,195 @@ function renderEventDetailPage() {
             $(detailsSection).slideToggle(200);
         });
     }
+}
+
+function userCanManageEvent(event) {
+    const currentUser = getCurrentUser();
+    return currentUser.role === "organizer" && event && event.organizerUsername === currentUser.username;
+}
+
+function getEventFormData(form) {
+    return {
+        title: cleanText(form.title.value),
+        department: form.department.value,
+        category: form.category.value,
+        date: form.date.value,
+        time: form.time.value,
+        location: cleanText(form.location.value),
+        capacity: Number(form.capacity.value),
+        description: cleanText(form.description.value),
+        organizerUsername: cleanText(form.organizerUsername.value)
+    };
+}
+
+function fillEventForm(form, event) {
+    form["event-id"].value = event.id;
+    form.title.value = event.title;
+    form.department.value = event.department;
+    form.category.value = event.category;
+    form.date.value = event.date;
+    form.time.value = event.time;
+    form.location.value = event.location;
+    form.capacity.value = event.capacity;
+    form.description.value = event.description;
+    form.organizerUsername.value = event.organizerUsername;
+}
+
+function prepareEventFormPage() {
+    const form = document.getElementById("event-form");
+    const heading = document.getElementById("event-form-heading");
+    const message = document.getElementById("event-form-message");
+    const deleteButton = document.getElementById("delete-event-button");
+
+    if (!form || !heading || !message || !deleteButton) {
+        return;
+    }
+
+    const currentUser = getCurrentUser();
+    const eventId = getEventIdFromUrl();
+    const event = eventId ? getEventById(eventId) : null;
+
+    clearInlineErrors(form);
+    message.textContent = "";
+    deleteButton.hidden = true;
+
+    if (currentUser.role !== "organizer") {
+        return;
+    }
+
+    if (eventId && !event) {
+        heading.textContent = "Edit event";
+        message.textContent = "The selected event could not be found.";
+        form.querySelectorAll("input, select, textarea, button").forEach(function (field) {
+            if (field.id !== "delete-event-button") {
+                field.disabled = true;
+            }
+        });
+        return;
+    }
+
+    form.querySelectorAll("input, select, textarea, button").forEach(function (field) {
+        field.disabled = false;
+    });
+
+    if (event) {
+        heading.textContent = "Edit event";
+        fillEventForm(form, event);
+
+        if (userCanManageEvent(event)) {
+            deleteButton.hidden = false;
+        } else {
+            message.textContent = "You can only manage your own events.";
+            form.querySelectorAll("input, select, textarea, button").forEach(function (field) {
+                field.disabled = true;
+            });
+        }
+    } else {
+        heading.textContent = "Create event";
+        form.reset();
+        form.organizerUsername.value = currentUser.username;
+    }
+}
+
+function showEventFormMessage(message, isError) {
+    const messageElement = document.getElementById("event-form-message");
+
+    if (!messageElement) {
+        return;
+    }
+
+    messageElement.textContent = message;
+    messageElement.classList.toggle("form-message-error", Boolean(isError));
+}
+
+function renderOrganizerDashboard() {
+    const eventList = document.getElementById("managed-events-list");
+    const overview = document.getElementById("dashboard-overview");
+    const studentsList = document.getElementById("registered-students-list");
+
+    if (!eventList || !overview || !studentsList) {
+        return;
+    }
+
+    const currentUser = getCurrentUser();
+
+    if (currentUser.role !== "organizer") {
+        return;
+    }
+
+    const ownedEvents = getEvents().filter(function (event) {
+        return event.organizerUsername === currentUser.username;
+    });
+    const totalRegistrations = ownedEvents.reduce(function (total, event) {
+        return total + countRegistrationsForEvent(event.id);
+    }, 0);
+
+    overview.innerHTML = "";
+    eventList.innerHTML = "";
+    studentsList.innerHTML = "";
+
+    appendDetailItem(overview, "Your events", String(ownedEvents.length));
+    appendDetailItem(overview, "Total registrations", String(totalRegistrations));
+
+    if (ownedEvents.length === 0) {
+        showEmptyEventMessage(eventList, "No events are assigned to this organizer account.");
+        showEmptyEventMessage(studentsList, "No registered students to show.");
+        return;
+    }
+
+    ownedEvents.forEach(function (event) {
+        eventList.appendChild(createOrganizerEventCard(event));
+        studentsList.appendChild(createRegisteredStudentsCard(event));
+    });
+}
+
+function createOrganizerEventCard(event) {
+    const card = document.createElement("article");
+    const heading = document.createElement("h3");
+    const links = document.createElement("p");
+    const detailLink = document.createElement("a");
+    const editLink = document.createElement("a");
+
+    heading.textContent = event.title;
+    card.appendChild(heading);
+    addEventDetail(card, "Date", formatEventDate(event.date));
+    addEventDetail(card, "Time", event.time);
+    addEventDetail(card, "Registrations", countRegistrationsForEvent(event.id) + " of " + event.capacity + " seats");
+
+    detailLink.href = "event.html?id=" + encodeURIComponent(event.id);
+    detailLink.textContent = "Show event information";
+    editLink.href = "event-form.html?id=" + encodeURIComponent(event.id);
+    editLink.textContent = "Edit event";
+    editLink.className = "card-action";
+    links.appendChild(detailLink);
+    links.appendChild(document.createTextNode(" "));
+    links.appendChild(editLink);
+    card.appendChild(links);
+
+    return card;
+}
+
+function createRegisteredStudentsCard(event) {
+    const card = document.createElement("article");
+    const heading = document.createElement("h3");
+    const list = document.createElement("ul");
+    const registrations = getRegistrationsForEvent(event.id);
+
+    heading.textContent = event.title;
+    card.appendChild(heading);
+
+    if (registrations.length === 0) {
+        const item = document.createElement("li");
+        item.textContent = "No students registered yet.";
+        list.appendChild(item);
+    } else {
+        registrations.forEach(function (registration) {
+            const item = document.createElement("li");
+            item.textContent = registration.studentName + " — " + registration.studentEmail;
+            list.appendChild(item);
+        });
+    }
+
+    card.appendChild(list);
+    return card;
 }

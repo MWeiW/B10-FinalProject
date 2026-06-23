@@ -59,6 +59,8 @@ function setupRoleSwitcher() {
         updateRoleBasedNavigation();
         filterAndRenderHomeEvents();
         renderEventDetailPage();
+        prepareEventFormPage();
+        renderOrganizerDashboard();
     });
 }
 
@@ -69,4 +71,80 @@ document.addEventListener("DOMContentLoaded", function () {
     renderHomeEventList();
     renderEventDetailPage();
     setupHomeEventFilters();
+    setupEventForm();
+    setupOrganizerDashboard();
 });
+
+function setupEventForm() {
+    const form = document.getElementById("event-form");
+    const deleteButton = document.getElementById("delete-event-button");
+
+    if (!form) {
+        return;
+    }
+
+    prepareEventFormPage();
+
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const currentUser = getCurrentUser();
+        const eventId = form["event-id"].value;
+        const existingEvent = eventId ? getEventById(eventId) : null;
+
+        if (currentUser.role !== "organizer") {
+            showEventFormMessage("Only organizers can save events.", true);
+            return;
+        }
+
+        if (existingEvent && !userCanManageEvent(existingEvent)) {
+            showEventFormMessage("You can only manage your own events.", true);
+            return;
+        }
+
+        if (form.organizerUsername.value.trim() !== currentUser.username) {
+            showInlineError(form.organizerUsername, "Use your current organizer username.");
+            showEventFormMessage("You can only manage your own events.", true);
+            return;
+        }
+
+        if (!validateEventForm(form)) {
+            showEventFormMessage("Please fix the highlighted fields.", true);
+            return;
+        }
+
+        const eventData = getEventFormData(form);
+        const savedEvent = existingEvent ? updateEvent(existingEvent.id, eventData) : createEvent(eventData);
+
+        showEventFormMessage("Event saved.", false);
+        window.history.replaceState({}, "", "event-form.html?id=" + encodeURIComponent(savedEvent.id));
+        prepareEventFormPage();
+    });
+
+    form.addEventListener("reset", function () {
+        setTimeout(function () {
+            prepareEventFormPage();
+        }, 0);
+    });
+
+    if (deleteButton) {
+        deleteButton.addEventListener("click", function () {
+            const eventId = form["event-id"].value;
+            const eventToDelete = getEventById(eventId);
+
+            if (!eventToDelete || !userCanManageEvent(eventToDelete)) {
+                showEventFormMessage("You can only manage your own events.", true);
+                return;
+            }
+
+            if (window.confirm("Delete this event?")) {
+                deleteEvent(eventToDelete.id);
+                window.location.href = "organizer.html";
+            }
+        });
+    }
+}
+
+function setupOrganizerDashboard() {
+    renderOrganizerDashboard();
+}

@@ -59,6 +59,10 @@ function normalizeEventNames(events) {
             normalizedEvent.description = "A relaxed meeting for international and new HTW students to ask questions and get to know each other.";
         }
 
+        if (normalizedEvent.organizerUsername === "career-service") {
+            normalizedEvent.organizerUsername = "career-center";
+        }
+
         return normalizedEvent;
     });
 }

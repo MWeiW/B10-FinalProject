@@ -41,46 +41,68 @@
     <main>
         <section aria-labelledby="event-form-heading" data-page-role="organizer">
             <h2 id="event-form-heading">Create or edit an event</h2>
-            <p>Organizers can enter the main information students need before registering.</p>
+            <p>Organizers can enter the main information students need before registering. You can only manage your own events.</p>
 
-            <form>
+            <form id="event-form" novalidate>
+                <input type="hidden" id="event-id" name="event-id">
+
                 <label for="title">Event title</label>
-                <input type="text" id="title" name="title" required>
-
-                <label for="description">Description</label>
-                <textarea id="description" name="description" rows="5" required></textarea>
+                <input type="text" id="title" name="title" maxlength="80" required aria-describedby="title-error">
+                <span class="error-message" id="title-error" aria-live="polite"></span>
 
                 <label for="department">Department</label>
-                <select id="department" name="department" required>
+                <select id="department" name="department" required aria-describedby="department-error">
                     <option value="">Choose a department</option>
-                    <option value="computer-science">Computer Science</option>
-                    <option value="cybersecurity">Cybersecurity</option>
-                    <option value="business">Business</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Business">Business</option>
+                    <option value="Cybersecurity">Cybersecurity</option>
+                    <option value="Engineering">Engineering</option>
+                    <option value="Career Service">Career Service</option>
+                    <option value="International Office">International Office</option>
                 </select>
+                <span class="error-message" id="department-error" aria-live="polite"></span>
 
                 <label for="category">Category</label>
-                <select id="category" name="category" required>
+                <select id="category" name="category" required aria-describedby="category-error">
                     <option value="">Choose a category</option>
-                    <option value="workshop">Workshop</option>
-                    <option value="lecture">Lecture</option>
-                    <option value="career">Career</option>
-                    <option value="student-life">Student life</option>
+                    <option value="Workshop">Workshop</option>
+                    <option value="Lecture">Lecture</option>
+                    <option value="Career">Career</option>
+                    <option value="Social">Social</option>
+                    <option value="Information Session">Information Session</option>
+                    <option value="Academic Support">Academic Support</option>
                 </select>
+                <span class="error-message" id="category-error" aria-live="polite"></span>
 
                 <label for="date">Date</label>
-                <input type="date" id="date" name="date" required>
+                <input type="date" id="date" name="date" required aria-describedby="date-error">
+                <span class="error-message" id="date-error" aria-live="polite"></span>
 
                 <label for="time">Start time</label>
-                <input type="time" id="time" name="time" required>
+                <input type="time" id="time" name="time" required aria-describedby="time-error">
+                <span class="error-message" id="time-error" aria-live="polite"></span>
 
                 <label for="location">Location</label>
-                <input type="text" id="location" name="location" required>
+                <input type="text" id="location" name="location" maxlength="80" required aria-describedby="location-error">
+                <span class="error-message" id="location-error" aria-live="polite"></span>
 
                 <label for="capacity">Maximum number of students</label>
-                <input type="number" id="capacity" name="capacity" min="1" max="200" required>
+                <input type="number" id="capacity" name="capacity" min="1" max="200" required aria-describedby="capacity-error">
+                <span class="error-message" id="capacity-error" aria-live="polite"></span>
+
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="5" maxlength="500" required aria-describedby="description-error"></textarea>
+                <span class="error-message" id="description-error" aria-live="polite"></span>
+
+                <label for="organizerUsername">Organizer username</label>
+                <input type="text" id="organizerUsername" name="organizerUsername" maxlength="40" required aria-describedby="organizerUsername-error">
+                <span class="error-message" id="organizerUsername-error" aria-live="polite"></span>
+
+                <p id="event-form-message" class="form-message" aria-live="polite"></p>
 
                 <button type="submit">Save event</button>
                 <button type="reset">Clear form</button>
+                <button type="button" id="delete-event-button" class="danger-button" hidden>Delete event</button>
             </form>
         </section>
     </main>

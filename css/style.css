@@ -505,3 +505,37 @@ footer p {
 .danger-button:focus {
     background: #741b1b;
 }
+
+.error-message {
+    min-height: 1.2em;
+    margin-top: -8px;
+    color: #9b2727;
+    font-size: 0.92rem;
+}
+
+[aria-invalid="true"] {
+    border-color: #9b2727;
+}
+
+.form-message {
+    grid-column: 1 / -1;
+    margin: 4px 0;
+    color: var(--primary);
+    font-weight: bold;
+}
+
+.form-message-error {
+    color: #9b2727;
+}
+
+.card-list {
+    display: grid;
+    gap: 14px;
+    grid-column: 1 / -1;
+}
+
+@media (min-width: 900px) {
+    .card-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
