@@ -75,17 +75,6 @@ function normalizeEventNames(events) {
     });
 }
 
-function normalizeRegistrations(registrations) {
-    return registrations.map(function (registration) {
-        const normalizedRegistration = Object.assign({}, registration);
-
-        if (normalizedRegistration.studentUsername === "wei") {
-            normalizedRegistration.studyProgram = "Cybersecurity";
-        }
-
-        return normalizedRegistration;
-    });
-}
 
 function initializeStorage() {
     if (!localStorage.getItem(EVENTS_STORAGE_KEY)) {
@@ -97,7 +86,6 @@ function initializeStorage() {
     }
 
     saveEvents(normalizeEventNames(getEvents()));
-    saveRegistrations(normalizeRegistrations(getRegistrations()));
 }
 
 function getEvents() {

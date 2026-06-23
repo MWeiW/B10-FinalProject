@@ -61,6 +61,7 @@ function setupRoleSwitcher() {
         renderEventDetailPage();
         prepareEventFormPage();
         renderOrganizerDashboard();
+        renderStudentRegistrationsPage();
     });
 }
 
@@ -73,6 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
     setupHomeEventFilters();
     setupEventForm();
     setupOrganizerDashboard();
+    renderStudentRegistrationsPage();
 });
 
 function setupEventForm() {

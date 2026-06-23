@@ -759,3 +759,168 @@ function createRegisteredStudentsCard(event) {
     card.appendChild(list);
     return card;
 }
+
+function createStudentRegistrationCard(registration) {
+    const event = getEventById(registration.eventId);
+    const card = document.createElement("article");
+    const heading = document.createElement("h3");
+    const eventLink = document.createElement("a");
+    const editButton = document.createElement("button");
+    const cancelButton = document.createElement("button");
+    const form = document.createElement("form");
+    const message = document.createElement("p");
+    const suffix = registration.id;
+
+    heading.textContent = event ? event.title : "Event no longer available";
+    card.appendChild(heading);
+
+    addEventDetail(card, "Date", event ? formatEventDate(event.date) : "Not available");
+    addEventDetail(card, "Location", event ? event.location : "Not available");
+    addEventDetail(card, "Student", registration.studentName);
+    addEventDetail(card, "Email", registration.studentEmail);
+    addEventDetail(card, "Study program", registration.studyProgram);
+    addEventDetail(card, "Semester", String(registration.semester));
+
+    if (registration.note) {
+        addEventDetail(card, "Note", registration.note);
+    }
+
+    if (event) {
+        eventLink.href = "event.html?id=" + encodeURIComponent(event.id);
+        eventLink.textContent = "View event";
+        card.appendChild(eventLink);
+    }
+
+    editButton.type = "button";
+    editButton.textContent = "Edit registration";
+    cancelButton.type = "button";
+    cancelButton.className = "danger-button";
+    cancelButton.textContent = "Cancel registration";
+
+    form.hidden = true;
+    form.noValidate = true;
+    message.className = "form-message registration-message";
+    message.setAttribute("aria-live", "polite");
+
+    const nameInput = document.createElement("input");
+    const emailInput = document.createElement("input");
+    const programInput = document.createElement("input");
+    const semesterInput = document.createElement("input");
+    const noteInput = document.createElement("textarea");
+    const saveButton = document.createElement("button");
+    const closeButton = document.createElement("button");
+
+    nameInput.id = "student-name-" + suffix;
+    nameInput.name = "studentName";
+    nameInput.type = "text";
+    nameInput.maxLength = registrationFieldLimits.studentName;
+    nameInput.value = registration.studentName;
+
+    emailInput.id = "student-email-" + suffix;
+    emailInput.name = "studentEmail";
+    emailInput.type = "email";
+    emailInput.maxLength = registrationFieldLimits.studentEmail;
+    emailInput.value = registration.studentEmail;
+
+    programInput.id = "study-program-" + suffix;
+    programInput.name = "studyProgram";
+    programInput.type = "text";
+    programInput.maxLength = registrationFieldLimits.studyProgram;
+    programInput.value = registration.studyProgram;
+
+    semesterInput.id = "semester-" + suffix;
+    semesterInput.name = "semester";
+    semesterInput.type = "number";
+    semesterInput.min = "1";
+    semesterInput.max = "20";
+    semesterInput.step = "1";
+    semesterInput.value = registration.semester;
+
+    noteInput.id = "registration-note-" + suffix;
+    noteInput.name = "note";
+    noteInput.rows = 4;
+    noteInput.maxLength = registrationFieldLimits.note;
+    noteInput.value = registration.note || "";
+
+    saveButton.type = "submit";
+    saveButton.textContent = "Save changes";
+    closeButton.type = "button";
+    closeButton.textContent = "Close edit form";
+
+    addRegistrationField(form, "Student name", nameInput);
+    addRegistrationField(form, "Student email", emailInput);
+    addRegistrationField(form, "Study program", programInput);
+    addRegistrationField(form, "Semester", semesterInput);
+    addRegistrationField(form, "Optional note or accessibility needs", noteInput);
+    form.appendChild(message);
+    form.appendChild(saveButton);
+    form.appendChild(closeButton);
+
+    editButton.addEventListener("click", function () {
+        form.hidden = !form.hidden;
+    });
+
+    closeButton.addEventListener("click", function () {
+        form.hidden = true;
+    });
+
+    form.addEventListener("submit", function (submitEvent) {
+        submitEvent.preventDefault();
+
+        if (!validateRegistrationForm(form)) {
+            message.textContent = "Please fix the highlighted fields.";
+            message.classList.add("form-message-error");
+            return;
+        }
+
+        updateRegistration(registration.id, {
+            studentName: cleanText(form.studentName.value),
+            studentEmail: cleanText(form.studentEmail.value),
+            studyProgram: cleanText(form.studyProgram.value),
+            semester: Number(form.semester.value),
+            note: cleanText(form.note.value)
+        });
+        renderStudentRegistrationsPage();
+    });
+
+    cancelButton.addEventListener("click", function () {
+        if (window.confirm("Cancel this registration?")) {
+            deleteRegistration(registration.id);
+            renderStudentRegistrationsPage();
+        }
+    });
+
+    card.appendChild(editButton);
+    card.appendChild(cancelButton);
+    card.appendChild(form);
+
+    return card;
+}
+
+function renderStudentRegistrationsPage() {
+    const list = document.getElementById("student-registrations-list");
+
+    if (!list) {
+        return;
+    }
+
+    const currentUser = getCurrentUser();
+
+    list.innerHTML = "";
+
+    if (currentUser.role !== "student") {
+        showEmptyEventMessage(list, "Log in as a student to manage your registrations.");
+        return;
+    }
+
+    const registrations = getRegistrationsForStudent(currentUser.username);
+
+    if (registrations.length === 0) {
+        showEmptyEventMessage(list, "You have no registrations yet.");
+        return;
+    }
+
+    registrations.forEach(function (registration) {
+        list.appendChild(createStudentRegistrationCard(registration));
+    });
+}
