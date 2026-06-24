@@ -584,3 +584,42 @@ tbody tr:nth-child(even) {
         grid-template-columns: 1fr;
     }
 }
+
+#event-form {
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+#event-form .form-field {
+    display: grid;
+    gap: 6px;
+}
+
+#event-form label {
+    margin: 0;
+}
+
+#event-form .error-message {
+    margin-top: 0;
+}
+
+#event-form .form-message,
+#event-form button {
+    grid-column: 1 / -1;
+}
+
+@media (min-width: 700px) {
+    #event-form {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 18px;
+    }
+
+    #event-form .full-width,
+    #event-form .form-message {
+        grid-column: 1 / -1;
+    }
+
+    #event-form button {
+        grid-column: auto;
+    }
+}
