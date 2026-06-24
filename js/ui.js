@@ -715,11 +715,13 @@ function createOrganizerEventCard(event) {
     const links = document.createElement("p");
     const detailLink = document.createElement("a");
     const editLink = document.createElement("a");
+    const deleteButton = document.createElement("button");
 
     heading.textContent = event.title;
     card.appendChild(heading);
     addEventDetail(card, "Date", formatEventDate(event.date));
     addEventDetail(card, "Time", event.time);
+    addEventDetail(card, "Location", event.location);
     addEventDetail(card, "Registrations", countRegistrationsForEvent(event.id) + " of " + event.capacity + " seats");
 
     detailLink.href = "event.html?id=" + encodeURIComponent(event.id);
@@ -727,9 +729,25 @@ function createOrganizerEventCard(event) {
     editLink.href = "event-form.html?id=" + encodeURIComponent(event.id);
     editLink.textContent = "Edit event";
     editLink.className = "card-action";
+    deleteButton.type = "button";
+    deleteButton.className = "danger-button card-action";
+    deleteButton.textContent = "Delete event";
+    deleteButton.addEventListener("click", function () {
+        if (!userCanManageEvent(event)) {
+            renderOrganizerDashboard();
+            return;
+        }
+
+        if (window.confirm("Delete this event and its registrations?")) {
+            deleteEvent(event.id);
+            renderOrganizerDashboard();
+        }
+    });
+
     links.appendChild(detailLink);
     links.appendChild(document.createTextNode(" "));
     links.appendChild(editLink);
+    links.appendChild(deleteButton);
     card.appendChild(links);
 
     return card;
@@ -738,25 +756,82 @@ function createOrganizerEventCard(event) {
 function createRegisteredStudentsCard(event) {
     const card = document.createElement("article");
     const heading = document.createElement("h3");
-    const list = document.createElement("ul");
+    const tableWrapper = document.createElement("div");
+    const table = document.createElement("table");
+    const caption = document.createElement("caption");
+    const tableHead = document.createElement("thead");
+    const tableBody = document.createElement("tbody");
+    const headerRow = document.createElement("tr");
     const registrations = getRegistrationsForEvent(event.id);
+    const headings = ["Student name", "Email", "Study program", "Semester", "Note", "Action"];
 
     heading.textContent = event.title;
     card.appendChild(heading);
 
     if (registrations.length === 0) {
-        const item = document.createElement("li");
-        item.textContent = "No students registered yet.";
-        list.appendChild(item);
+        const emptyMessage = document.createElement("p");
+        emptyMessage.className = "empty-message";
+        emptyMessage.textContent = "No students registered yet.";
+        card.appendChild(emptyMessage);
     } else {
-        registrations.forEach(function (registration) {
-            const item = document.createElement("li");
-            item.textContent = registration.studentName + " — " + registration.studentEmail;
-            list.appendChild(item);
+        tableWrapper.className = "table-wrapper";
+        caption.textContent = "Registered students for " + event.title;
+        table.appendChild(caption);
+
+        headings.forEach(function (headingText) {
+            const headerCell = document.createElement("th");
+            headerCell.scope = "col";
+            headerCell.textContent = headingText;
+            headerRow.appendChild(headerCell);
         });
+
+        tableHead.appendChild(headerRow);
+        table.appendChild(tableHead);
+
+        registrations.forEach(function (registration) {
+            const row = document.createElement("tr");
+            const values = [
+                registration.studentName,
+                registration.studentEmail,
+                registration.studyProgram,
+                String(registration.semester),
+                registration.note || "-"
+            ];
+
+            values.forEach(function (value) {
+                const cell = document.createElement("td");
+                cell.textContent = value;
+                row.appendChild(cell);
+            });
+
+            const actionCell = document.createElement("td");
+            const removeButton = document.createElement("button");
+
+            removeButton.type = "button";
+            removeButton.className = "danger-button";
+            removeButton.textContent = "Remove";
+            removeButton.addEventListener("click", function () {
+                if (!userCanManageEvent(event)) {
+                    renderOrganizerDashboard();
+                    return;
+                }
+
+                if (window.confirm("Remove this student registration?")) {
+                    deleteRegistration(registration.id);
+                    renderOrganizerDashboard();
+                }
+            });
+
+            actionCell.appendChild(removeButton);
+            row.appendChild(actionCell);
+            tableBody.appendChild(row);
+        });
+
+        table.appendChild(tableBody);
+        tableWrapper.appendChild(table);
+        card.appendChild(tableWrapper);
     }
 
-    card.appendChild(list);
     return card;
 }
 
