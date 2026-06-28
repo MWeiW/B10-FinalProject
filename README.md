@@ -28,7 +28,7 @@ Use the role switcher at the top of the pages.
 
 Demo student users: Wei, Maya, Zoe
 
-Demo organizer users: CS Department, Business School, Career Center
+Demo organizer users: Computer Science Department, Cybersecurity Department, Engineering Department, Career Center, International Office, Business School
 
 ## Main features
 
