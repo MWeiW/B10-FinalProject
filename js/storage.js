@@ -18,7 +18,32 @@ function readListFromStorage(key) {
         return [];
     }
 
-    return JSON.parse(savedData);
+    try {
+        const parsedData = JSON.parse(savedData);
+
+        if (Array.isArray(parsedData)) {
+            return parsedData;
+        }
+    } catch (error) {
+        // Corrupted localStorage should not stop the app from loading.
+    }
+
+    localStorage.removeItem(key);
+    return [];
+}
+
+function hasValidStoredList(key) {
+    const savedData = localStorage.getItem(key);
+
+    if (!savedData) {
+        return false;
+    }
+
+    try {
+        return Array.isArray(JSON.parse(savedData));
+    } catch (error) {
+        return false;
+    }
 }
 
 function saveListToStorage(key, list) {
@@ -93,11 +118,11 @@ function normalizeEventNames(events) {
 
 
 function initializeStorage() {
-    if (!localStorage.getItem(EVENTS_STORAGE_KEY)) {
+    if (!hasValidStoredList(EVENTS_STORAGE_KEY)) {
         saveEvents(getSampleEvents());
     }
 
-    if (!localStorage.getItem(REGISTRATIONS_STORAGE_KEY)) {
+    if (!hasValidStoredList(REGISTRATIONS_STORAGE_KEY)) {
         saveRegistrations(getSampleRegistrations());
     }
 

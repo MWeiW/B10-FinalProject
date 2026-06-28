@@ -20,6 +20,12 @@ function countRegistrationsForEvent(eventId) {
     }).length;
 }
 
+function eventHasPassed(event) {
+    const eventDateTime = new Date(event.date + "T" + event.time);
+
+    return !Number.isNaN(eventDateTime.getTime()) && eventDateTime < new Date();
+}
+
 function addEventDetail(card, label, value) {
     const paragraph = document.createElement("p");
     const labelElement = document.createElement("strong");
@@ -357,6 +363,13 @@ function renderStudentEventAction(container, event, availableSeats) {
         return;
     }
 
+    if (eventHasPassed(event)) {
+        intro.textContent = "Registration is closed because this event has already passed.";
+        section.appendChild(intro);
+        container.appendChild(section);
+        return;
+    }
+
     if (availableSeats <= 0) {
         intro.textContent = "This event is fully booked.";
         section.appendChild(intro);
@@ -436,6 +449,12 @@ function renderStudentEventAction(container, event, availableSeats) {
 
         if (getRegistrationForStudentAndEvent(getCurrentUser().username, event.id)) {
             showRegistrationMessage(section, "You are already registered for this event.", true);
+            return;
+        }
+
+        if (eventHasPassed(event)) {
+            showRegistrationMessage(section, "Registration is closed because this event has already passed.", true);
+            renderEventDetailPage();
             return;
         }
 
@@ -558,12 +577,7 @@ function renderEventDetailPage() {
         actionsText.textContent = "Guests can view event information. Switch to a student role to see registration options.";
         container.appendChild(actionsText);
     } else if (currentUser.role === "student") {
-        if (availableSeats > 0) {
-            renderStudentEventAction(container, event, availableSeats);
-        } else {
-            actionsText.textContent = "This event is fully booked.";
-            container.appendChild(actionsText);
-        }
+        renderStudentEventAction(container, event, availableSeats);
     } else {
         actionsText.textContent = "Organizer actions are shown only for events created by the selected organizer account.";
         container.appendChild(actionsText);
