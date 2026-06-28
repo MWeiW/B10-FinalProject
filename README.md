@@ -27,6 +27,7 @@ Use the role switcher at the top of the pages.
 * Organizer/Admin: create, edit, and delete own events, and view registered students
 
 Demo student users: Wei, Maya, Zoe
+
 Demo organizer users: CS Department, Business School, Career Center
 
 ## Main features
