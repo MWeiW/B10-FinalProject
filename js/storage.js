@@ -63,12 +63,20 @@ function normalizeEventNames(events) {
             normalizedEvent.organizerUsername = "career-center";
         }
 
-        if (normalizedEvent.organizerUsername === "international-office") {
-            normalizedEvent.organizerUsername = "business-school";
+        if (normalizedEvent.id === "event-004" || normalizedEvent.title === "Cybersecurity Lunch Talk") {
+            normalizedEvent.organizerUsername = "cybersecurity-department";
+        }
+
+        if (normalizedEvent.id === "event-005" || normalizedEvent.title === "International Welcome Coffee for new HTW students.") {
+            normalizedEvent.organizerUsername = "international-office";
+        }
+
+        if (normalizedEvent.id === "event-006" || normalizedEvent.title === "Engineering Project Planning Session") {
+            normalizedEvent.organizerUsername = "engineering-department";
         }
 
         if (normalizedEvent.organizerUsername === "engineering-office") {
-            normalizedEvent.organizerUsername = "cs-department";
+            normalizedEvent.organizerUsername = "engineering-department";
         }
 
         return normalizedEvent;

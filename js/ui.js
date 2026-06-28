@@ -66,7 +66,7 @@ function createEventCard(event) {
         card.appendChild(registerLink);
     }
 
-    if (currentUser.role === "organizer") {
+    if (currentUser.role === "organizer" && event.organizerUsername === currentUser.username) {
         const editLink = document.createElement("a");
         editLink.href = "event-form.html?id=" + encodeURIComponent(event.id);
         editLink.textContent = "Edit event";

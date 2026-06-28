@@ -72,7 +72,7 @@ const sampleEvents = [
         location: "Building G, Room 110",
         capacity: 45,
         description: "A short guest lecture about everyday security habits for students and project teams.",
-        organizerUsername: "cs-department",
+        organizerUsername: "cybersecurity-department",
         createdAt: "2026-06-06T08:45:00Z",
         updatedAt: "2026-06-06T08:45:00Z"
     },
@@ -86,7 +86,7 @@ const sampleEvents = [
         location: "Student Service Center",
         capacity: 35,
         description: "A relaxed meeting for international and new HTW students to ask questions and get to know each other.",
-        organizerUsername: "business-school",
+        organizerUsername: "international-office",
         createdAt: "2026-06-08T11:10:00Z",
         updatedAt: "2026-06-08T11:10:00Z"
     },
@@ -100,7 +100,7 @@ const sampleEvents = [
         location: "Building A, Room 204",
         capacity: 30,
         description: "An introduction to planning small semester projects, splitting tasks, and documenting team decisions.",
-        organizerUsername: "cs-department",
+        organizerUsername: "engineering-department",
         createdAt: "2026-06-10T13:25:00Z",
         updatedAt: "2026-06-10T13:25:00Z"
     }
@@ -140,7 +140,10 @@ const demoStudentUsers = [
 ];
 
 const demoOrganizerUsers = [
-    { username: "cs-department", name: "CS Department" },
-    { username: "business-school", name: "Business School" },
-    { username: "career-center", name: "Career Center" }
+    { username: "cs-department", name: "Computer Science Department / CS Department" },
+    { username: "cybersecurity-department", name: "Cybersecurity Department" },
+    { username: "engineering-department", name: "Engineering Department" },
+    { username: "career-center", name: "Career Center" },
+    { username: "international-office", name: "International Office" },
+    { username: "business-school", name: "Business School" }
 ];
