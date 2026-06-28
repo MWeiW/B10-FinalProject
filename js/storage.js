@@ -67,6 +67,15 @@ function getSampleRegistrations() {
 }
 
 
+const builtInSampleEventDates = {
+    "event-001": "2026-06-28",
+    "event-002": "2026-09-25",
+    "event-003": "2026-10-02",
+    "event-004": "2026-10-09",
+    "event-005": "2026-10-23",
+    "event-006": "2026-11-06"
+};
+
 function normalizeEventNames(events) {
     return events.map(function (event) {
         const normalizedEvent = Object.assign({}, event);
@@ -110,6 +119,10 @@ function normalizeEventNames(events) {
 
         if (normalizedEvent.organizerUsername === "engineering-office") {
             normalizedEvent.organizerUsername = "engineering-department";
+        }
+
+        if (builtInSampleEventDates[normalizedEvent.id]) {
+            normalizedEvent.date = builtInSampleEventDates[normalizedEvent.id];
         }
 
         return normalizedEvent;
