@@ -63,6 +63,14 @@ function normalizeEventNames(events) {
             normalizedEvent.organizerUsername = "career-center";
         }
 
+        if (normalizedEvent.id === "event-001" || normalizedEvent.title === "Web Basics") {
+            normalizedEvent.organizerUsername = "cs-department";
+        }
+
+        if (normalizedEvent.id === "event-003" || normalizedEvent.title === "Study Group Kickoff: Databases") {
+            normalizedEvent.organizerUsername = "cs-department";
+        }
+
         if (normalizedEvent.id === "event-004" || normalizedEvent.title === "Cybersecurity Lunch Talk") {
             normalizedEvent.organizerUsername = "cybersecurity-department";
         }

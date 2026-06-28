@@ -140,7 +140,7 @@ const demoStudentUsers = [
 ];
 
 const demoOrganizerUsers = [
-    { username: "cs-department", name: "Computer Science Department / CS Department" },
+    { username: "cs-department", name: "Computer Science Department" },
     { username: "cybersecurity-department", name: "Cybersecurity Department" },
     { username: "engineering-department", name: "Engineering Department" },
     { username: "career-center", name: "Career Center" },
