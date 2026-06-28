@@ -255,6 +255,10 @@ section:has(> article) > article {
     margin: 0;
 }
 
+#featured-events > article {
+    margin: 0;
+}
+
 #registered-students-heading + article {
     overflow-x: auto;
 }
@@ -621,5 +625,48 @@ tbody tr:nth-child(even) {
 
     #event-form button {
         grid-column: auto;
+    }
+}
+
+.registration-form {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 16px;
+}
+
+.registration-field {
+    display: grid;
+    gap: 8px;
+}
+
+.registration-field label {
+    margin: 0;
+}
+
+.registration-field-wide,
+.registration-form .form-message {
+    grid-column: 1 / -1;
+}
+
+.registration-field-wide textarea {
+    min-height: 130px;
+    resize: vertical;
+}
+
+@media (min-width: 600px) {
+    .registration-form {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 18px;
+    }
+}
+
+@media (min-width: 900px) {
+    .registration-form {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .registration-field-wide {
+        grid-column: 1 / -1;
     }
 }

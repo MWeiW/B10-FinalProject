@@ -289,15 +289,23 @@ function addErrorMessage(form, field) {
 }
 
 function addRegistrationField(form, labelText, field) {
+    const fieldGroup = document.createElement("div");
     const label = document.createElement("label");
+
+    fieldGroup.className = "registration-field";
+
+    if (field.tagName.toLowerCase() === "textarea") {
+        fieldGroup.classList.add("registration-field-wide");
+    }
 
     label.setAttribute("for", field.id);
     label.textContent = labelText;
     field.setAttribute("aria-describedby", field.id + "-error");
 
-    form.appendChild(label);
-    form.appendChild(field);
-    addErrorMessage(form, field);
+    fieldGroup.appendChild(label);
+    fieldGroup.appendChild(field);
+    addErrorMessage(fieldGroup, field);
+    form.appendChild(fieldGroup);
 }
 
 function getRegistrationFormData(form, eventId) {
@@ -368,6 +376,7 @@ function renderStudentEventAction(container, event, availableSeats) {
     const button = document.createElement("button");
 
     form.id = "student-registration-form";
+    form.className = "registration-form";
     form.noValidate = true;
 
     nameInput.id = "student-name";
@@ -873,6 +882,7 @@ function createStudentRegistrationCard(registration) {
     cancelButton.textContent = "Cancel registration";
 
     form.hidden = true;
+    form.className = "registration-form";
     form.noValidate = true;
     message.className = "form-message registration-message";
     message.setAttribute("aria-live", "polite");
